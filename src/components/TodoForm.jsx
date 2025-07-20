@@ -168,9 +168,9 @@ const TodoForm = () => {
                 <FormGroup>
                     <Label>サブタスク</Label>
                     {fields.map((field, index) => (
-                        <div style={{ marginBottom: '16px' }}>
+                        <div key={field.id} style={{ marginBottom: '16px' }}>
 
-                            <SubtaskRow key={field.id}>
+                            <SubtaskRow>
                                 <Input
                                     type="text"
                                     placeholder={`サブタスク ${index + 1}`}
