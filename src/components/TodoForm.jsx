@@ -145,7 +145,7 @@ const TodoForm = () => {
     const [taskList, setTaskList] = useState([]);
 
     const onSubmit = (data) => {
-        setTaskList((prev) => [...prev, data]);
+        setTaskList((prev) => [...prev, { ...data, id: Date.now() }]);
         reset();
     }
 
@@ -168,7 +168,7 @@ const TodoForm = () => {
                 <FormGroup>
                     <Label>サブタスク</Label>
                     {fields.map((field, index) => (
-                        <div key={field.id} style={{ marginBottom: '16px' }}>
+                        <div style={{ marginBottom: '16px' }}>
 
                             <SubtaskRow key={field.id}>
                                 <Input
@@ -213,13 +213,14 @@ const TodoForm = () => {
                                     タスク削除
                                 </RemoveButton>
                             </TaskHeader>
-                            {task.subtasks && task.subtasks.length > 0 && task.subtasks[0].name && (
-                                <SubtaskList>
-                                    {task.subtasks.map((sub, i) => (
-                                        sub.name && <li key={i}>{sub.name}</li>
-                                    ))}
-                                </SubtaskList>
-                            )}
+                            {task.subtasks && task.subtasks.length > 0 &&
+                                task.subtasks.some(sub => sub.name) && (
+                                    <SubtaskList>
+                                        {task.subtasks.map((sub, i) => (
+                                            sub.name && <li key={i}>{sub.name}</li>
+                                        ))}
+                                    </SubtaskList>
+                                )}
                         </TaskCard>
                     ))}
                 </div>

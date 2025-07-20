@@ -16,38 +16,50 @@ const Home = () => {
     // useEffectとどっちが早いか確認
     console.log("画面起動しました！");
 
-    const { data } = useData();
+    const { data, loading, error } = useData();
 
     return (
         <>
-            <h1>初級のおさらい</h1>
+            {loading && (
+                <div>データを取得中...</div>
+            )}
 
-            {/* ここがポイント：jsのmapというおまじないを使って、画面に表示させます */}
-            {data.map((item, index) => (
-                <div key={index}>
-                    <p>{item.title}</p>
+            {error && (
+                <div style={{ color: 'red' }}>
+                    <p>⚠️ エラー: {error}</p>
                 </div>
-            ))}
+            )}
 
-            <Form />
+            {!loading && !error && data.length > 0 && (
+                <>
+                    <h1>初級のおさらい</h1>
+                    {data.map((item) => (
+                        <div key={item.id}>
+                            <p>{item.title}</p>
+                        </div>
+                    ))}
 
-            <Test zz='ジーズの授業中です！' />
+                    <Form />
 
-            <h2>{oohori}</h2>
-            <button onClick={() => setOohori("あああああ")}>
-                押したらどうなるか
-            </button>
+                    <Test zz='ジーズの授業中です！' />
 
-            <h3>{num}</h3>
-            <button onClick={() => setNum((prev) => prev + 1)}>ボタン</button>
+                    <h2>{oohori}</h2>
+                    <button onClick={() => setOohori("あああああ")}>
+                        押したらどうなるか
+                    </button>
 
-            {omikuji === 0 && <h1>大吉</h1>}
-            {omikuji === 1 && <h1>中吉</h1>}
-            {omikuji === 2 && <h1>吉</h1>}
-            {omikuji === 3 && <h1>小吉</h1>}
-            {omikuji === 4 && <h1>凶</h1>}
+                    <h3>{num}</h3>
+                    <button onClick={() => setNum((prev) => prev + 1)}>ボタン</button>
 
-            <button onClick={random}>おみくじ</button>
+                    {omikuji === 0 && <h1>大吉</h1>}
+                    {omikuji === 1 && <h1>中吉</h1>}
+                    {omikuji === 2 && <h1>吉</h1>}
+                    {omikuji === 3 && <h1>小吉</h1>}
+                    {omikuji === 4 && <h1>凶</h1>}
+
+                    <button onClick={random}>おみくじ</button>
+                </>
+            )}
         </>
     )
 }

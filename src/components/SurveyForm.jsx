@@ -98,14 +98,18 @@ export default function SurveyForm() {
     const [result, setResult] = useState(null);
 
     const onSubmit = (data) => {
-        const formatted = {
-            age: data.age,
-            gender: data.gender,
-            services: data.services.includes("その他")
-                ? [...data.services.filter(s => s !== "その他"), data.otherServices]
-                : data.services
-        };
-        setResult(formatted);
+        try {
+            const formatted = {
+                age: data.age,
+                gender: data.gender,
+                services: data.services.includes("その他")
+                    ? [...data.services.filter(s => s !== "その他"), data.otherServices.trim()]
+                    : data.services
+            };
+            setResult(formatted);
+        } catch (error) {
+            console.log('フォーム送信エラー：', error);
+        }
     };
 
     const selectedServices = watch("services");
@@ -140,7 +144,7 @@ export default function SurveyForm() {
                             <input
                                 type="radio"
                                 value="男性"
-                                {...register("gender", { required: "性別を選択してください" })}
+                                {...register("gender")}
                             />
                             男性
                         </label>
@@ -172,7 +176,9 @@ export default function SurveyForm() {
                             <input
                                 type="checkbox"
                                 value="Netflix"
-                                {...register("services", { required: "1つ以上選択してください" })}
+                                {...register("services", {
+                                    validate: value => value.length > 0 || '1つ以上選択してください'
+                                })}
                             />
                             Netflix
                         </label>
@@ -180,7 +186,7 @@ export default function SurveyForm() {
                             <input
                                 type="checkbox"
                                 value="Amazon Prime"
-                                {...register("services", { required: "1つ以上選択してください" })}
+                                {...register("services")}
                             />
                             Amazon Prime
                         </label>
@@ -188,7 +194,7 @@ export default function SurveyForm() {
                             <input
                                 type="checkbox"
                                 value="Disney+"
-                                {...register("services", { required: "1つ以上選択してください" })}
+                                {...register("services")}
                             />
                             Disney+
                         </label>
@@ -196,7 +202,7 @@ export default function SurveyForm() {
                             <input
                                 type="checkbox"
                                 value="その他"
-                                {...register("services", { required: "1つ以上選択してください" })}
+                                {...register("services")}
                             />
                             その他
                         </label>

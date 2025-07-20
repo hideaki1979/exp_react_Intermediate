@@ -5,7 +5,6 @@ const Form = () => {
     const [email, setEmail] = useState("");
 
     const handleNameChange = (event) => {
-        console.log(event, "中身チェック");
         setName(event.target.value);
     }
 
