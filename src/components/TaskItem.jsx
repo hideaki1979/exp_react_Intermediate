@@ -97,7 +97,6 @@ export const TaskItem = memo(({ task, removeTask, addSubtask, toggleTask }) => {
             <label>
                 <Checkbox
                     name="completed"
-                    id={`completed-${task.id}`}
                     checked={task.completed}
                     onChange={() => toggleTask(task.id)}
                 />
