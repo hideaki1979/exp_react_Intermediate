@@ -66,8 +66,8 @@ const TodoApp = () => {
         setTasks((prev) => [
             ...prev,
             {
-                id: new Date().toLocaleString("ja-JP"),
-                title: text,
+                id: crypto.randomUUID(),
+                title: text.trim(),
                 completed: false,
                 subtasks: []
             }
@@ -89,7 +89,7 @@ const TodoApp = () => {
                         ...task,
                         subtasks: [
                             ...task.subtasks,
-                            { id: new Date().toLocaleString("ja-JP"), title: subtaskTitle, completed: false },
+                            { id: crypto.randomUUID(), title: subtaskTitle.trim(), completed: false },
                         ],
                     }
                     : task
@@ -102,9 +102,7 @@ const TodoApp = () => {
         [tasks]
     );
 
-    const incompleteCount = useMemo(() => {
-        return tasks.filter((t) => !t.completed).length
-    }, [tasks]);
+    const incompleteCount = tasks.length - completedCount;
 
     // 完了状態切り替え
     const toggleTask = useCallback((id) => {

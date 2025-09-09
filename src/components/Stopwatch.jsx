@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import styled from "styled-components";
 
 // ▼ styled-components スタイル定義
@@ -39,6 +39,15 @@ const Stopwatch = () => {
     const [time, setTime] = useState(0) // 経過時間（秒）
     const [isRunning, setIsRunning] = useState(false)   // 動作中か
     const intervalRef = useRef(null)    // setIntervalのID保持
+
+    useEffect(() => {
+        // コンポーネントがアンマウントされるときに実行されるクリーンアップ関数
+        return () => {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+            }
+        }
+    }, []);  // 空の依存配列は、コンポーネントのマウント時とアンマウント時にのみeffectが実行されることを保証します
 
     // スタート処理
     const handleStart = useCallback(() => {

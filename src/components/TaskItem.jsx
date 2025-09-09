@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { memo, useState } from "react"
 import styled from "styled-components";
 
 const Card = styled.div`
@@ -83,7 +83,7 @@ const Checkbox = styled.input.attrs({ type: "checkbox" })`
     }
 `;
 
-export const TaskItem = ({ task, removeTask, addSubtask, toggleTask }) => {
+export const TaskItem = memo(({ task, removeTask, addSubtask, toggleTask }) => {
     const [subtaskText, setSubtaskText] = useState("");
 
     const handleAddSubtask = () => {
@@ -96,9 +96,8 @@ export const TaskItem = ({ task, removeTask, addSubtask, toggleTask }) => {
         <Card>
             <label>
                 <Checkbox
-                    type="checkbox"
                     name="completed"
-                    id="completed"
+                    id={`completed-${task.id}`}
                     checked={task.completed}
                     onChange={() => toggleTask(task.id)}
                 />
@@ -132,4 +131,4 @@ export const TaskItem = ({ task, removeTask, addSubtask, toggleTask }) => {
             )}
         </Card>
     )
-}
+})
